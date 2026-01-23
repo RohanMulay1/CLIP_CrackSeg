@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['NewCracks - v2 2024-05-18 10-54pm']
+
+roboflow:
+  workspace: adas-fvpqc
+  project: wall-crack-p0jqt
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/adas-fvpqc/wall-crack-p0jqt/dataset/1

@@ -1,4 +1,7 @@
+import os
 import matplotlib.pyplot as plt
+
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 epochs = list(range(1, 11))
 
@@ -28,7 +31,8 @@ plt.legend()
 plt.grid(True, linestyle='--', alpha=0.7)
 
 plt.tight_layout()
-plt.savefig("drywall_training_metrics.png", dpi=300)
+_output_path = os.path.join(_REPO_ROOT, "assets", "drywall_training_metrics.png")
+plt.savefig(_output_path, dpi=300)
 plt.show()
 
-print("Graph saved as 'drywall_training_metrics.png'")
+print(f"Graph saved as '{_output_path}'")

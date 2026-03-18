@@ -55,5 +55,6 @@ def split_dataset(root):
 
 
 # Run for both datasets
-split_dataset(r"Drywall-Join-Detect\Drywall-Join-Detect")
-split_dataset(r"wall-crack\wall-crack")
+_data_root = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+split_dataset(os.path.join(_data_root, "Drywall-Join-Detect", "Drywall-Join-Detect"))
+split_dataset(os.path.join(_data_root, "wall-crack", "wall-crack"))

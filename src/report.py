@@ -37,9 +37,11 @@ def get_metrics(pred, target, threshold=0.5):
     dice = (2 * intersection + 1e-6) / (pred.sum() + target.sum() + 1e-6)
     return iou.item(), dice.item()
 
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
-drywall_root = "/content/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
-crack_root   = "/content/content/Origin/wall-crack/wall-crack"
+drywall_root = os.path.join(_REPO_ROOT, "data", "Drywall-Join-Detect", "Drywall-Join-Detect")
+crack_root   = os.path.join(_REPO_ROOT, "data", "wall-crack", "wall-crack")
 
 val_drywall = PromptSegDataset(os.path.join(drywall_root, "val"), "segment_taping_area")
 val_cracks  = PromptSegDataset(os.path.join(crack_root, "val"), "segment_crack")
@@ -96,7 +98,7 @@ def run_final_report():
         for ax in axes[i]: ax.axis('off')
 
     plt.tight_layout()
-    plt.savefig("report_visuals.png")
+    plt.savefig(os.path.join(_REPO_ROOT, "assets", "report_visuals.png"))
     plt.show()
     print("\nVisuals saved as 'report_visuals.png'")
 

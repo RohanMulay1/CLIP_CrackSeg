@@ -155,9 +155,10 @@ def validate(model, processor, val_loader, device):
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
-    # Dataset paths [cite: 8, 10]
-    drywall_root = "/content/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
-    crack_root   = "/content/content/Origin/wall-crack/wall-crack"
+    # Dataset paths — relative to repo root
+    repo_root    = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    drywall_root = os.path.join(repo_root, "data", "drywall")
+    crack_root   = os.path.join(repo_root, "data", "wall-crack")
 
     # Task mapping: Dataset 1 (Taping) and Dataset 2 (Cracks) [cite: 4, 5, 9, 10]
     train_drywall = PromptSegDataset(os.path.join(drywall_root, "train_split"), "segment_taping_area")
@@ -178,6 +179,9 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
     EPOCHS = 10
 
+    outputs_dir = os.path.join(repo_root, "outputs")
+    os.makedirs(outputs_dir, exist_ok=True)
+
     for epoch in range(EPOCHS):
         print(f"\n======== Epoch {epoch+1}/{EPOCHS} ========")
         train_loss = train_one_epoch(model, processor, train_loader, optimizer, device)
@@ -187,7 +191,7 @@ def main():
         print(f"Train Loss: {train_loss:.4f} | Val Loss: {v_loss:.4f}")
         print(f"mIoU: {v_iou:.4f} | Dice: {v_dice:.4f} | Avg Inf: {avg_inf:.4f}s")
 
-        save_path = f"clipseg_epoch_{epoch+1}.pth"
+        save_path = os.path.join(outputs_dir, f"clipseg_epoch_{epoch+1}.pth")
         torch.save(model.state_dict(), save_path)
         print(f"Saved: {save_path} (Size: {os.path.getsize(save_path)/1e6:.2f} MB)")
 

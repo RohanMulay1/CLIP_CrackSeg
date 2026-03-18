@@ -8,9 +8,9 @@ from segment_anything import sam_model_registry, SamPredictor
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 CHECKPOINT_PATH = "sam_vit_l_0b3195.pth"
 
-
 MODEL_TYPE = "vit_l"
-DATASET_ROOT = "/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
+_repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATASET_ROOT = os.path.join(_repo_root, "data", "drywall")
 
 
 sam = sam_model_registry[MODEL_TYPE](checkpoint=CHECKPOINT_PATH)

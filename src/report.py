@@ -38,8 +38,9 @@ def get_metrics(pred, target, threshold=0.5):
     return iou.item(), dice.item()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-drywall_root = "/content/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
-crack_root   = "/content/content/Origin/wall-crack/wall-crack"
+_base = os.path.join(os.path.dirname(__file__), "..")
+drywall_root = os.path.join(_base, "data", "Drywall-Join-Detect", "Drywall-Join-Detect")
+crack_root   = os.path.join(_base, "data", "wall-crack", "wall-crack")
 
 val_drywall = PromptSegDataset(os.path.join(drywall_root, "val"), "segment_taping_area")
 val_cracks  = PromptSegDataset(os.path.join(crack_root, "val"), "segment_crack")

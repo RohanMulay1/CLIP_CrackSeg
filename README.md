@@ -9,23 +9,60 @@ Prompt-driven wall defect detection pipeline using **CLIPSeg** (CLIP-based image
 - Custom `PromptSegDataset` for loading image/mask pairs with text prompts
 - Training, evaluation, and visual report generation scripts
 
-## Structure
+## Repository Structure
 
-| File | Description |
-|------|-------------|
-| `train.py` | Fine-tuning CLIPSeg on drywall dataset |
-| `sam_mask_generator.py` | SAM-based mask proposals |
-| `metrics.py` | Evaluation metrics (IoU, precision, recall) |
-| `report.py` | Visual report generation |
-| `split.py` | Train/val dataset splitting |
-| `requirements.txt` | Dependencies |
+```
+CLIP_CrackSeg/
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── src/
+│   ├── train.py              # Fine-tuning CLIPSeg on drywall dataset
+│   ├── sam_mask_generator.py # SAM-based mask proposals
+│   ├── metrics.py            # Training metric visualisation
+│   ├── report.py             # Visual report generation
+│   └── split.py              # Train/val/test dataset splitting
+├── data/
+│   ├── drywall/              # Drywall-Join-Detect dataset
+│   └── wall-crack/           # Wall-crack dataset
+├── outputs/                  # Generated images and model checkpoints
+└── docs/
+    └── Origin_Assignment_RohanMulay.pdf
+```
 
 ## Setup
 
 ```bash
 pip install -r requirements.txt
-python train.py
 ```
+
+### 1. Prepare the datasets
+
+Split the raw training images into train / val / test splits:
+
+```bash
+python src/split.py
+```
+
+### 2. Generate SAM masks
+
+```bash
+python src/sam_mask_generator.py
+```
+
+### 3. Train
+
+```bash
+python src/train.py
+```
+
+### 4. Evaluate & generate report
+
+```bash
+python src/report.py
+```
+
+Outputs (images and checkpoints) are written to the `outputs/` directory.
 
 ## Tech Stack
 

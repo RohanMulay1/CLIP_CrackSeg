@@ -38,15 +38,16 @@ def get_metrics(pred, target, threshold=0.5):
     return iou.item(), dice.item()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-drywall_root = "/content/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
-crack_root   = "/content/content/Origin/wall-crack/wall-crack"
+repo_root    = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+drywall_root = os.path.join(repo_root, "data", "drywall")
+crack_root   = os.path.join(repo_root, "data", "wall-crack")
 
 val_drywall = PromptSegDataset(os.path.join(drywall_root, "val"), "segment_taping_area")
 val_cracks  = PromptSegDataset(os.path.join(crack_root, "val"), "segment_crack")
 
 processor = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
 model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined").to(device)
-checkpoint_path = "clipseg_epoch_10.pth"
+checkpoint_path = os.path.join(repo_root, "outputs", "clipseg_epoch_10.pth")
 
 if os.path.exists(checkpoint_path):
     model.load_state_dict(torch.load(checkpoint_path, map_location=device))
@@ -96,9 +97,10 @@ def run_final_report():
         for ax in axes[i]: ax.axis('off')
 
     plt.tight_layout()
-    plt.savefig("report_visuals.png")
+    output_path = os.path.join(repo_root, "outputs", "report_visuals.png")
+    plt.savefig(output_path)
     plt.show()
-    print("\nVisuals saved as 'report_visuals.png'")
+    print(f"\nVisuals saved as '{output_path}'")
 
 if __name__ == "__main__":
     run_final_report()

@@ -3,7 +3,7 @@ import random
 import shutil
 
 def split_dataset(root):
-    # root example: "Drywall-Join-Detect/Drywall-Join-Detect"
+    # root example: "data/drywall"
     train_root = os.path.join(root, "train")
     img_dir = os.path.join(train_root, "images")
     lbl_dir = os.path.join(train_root, "labels")
@@ -55,5 +55,7 @@ def split_dataset(root):
 
 
 # Run for both datasets
-split_dataset(r"Drywall-Join-Detect\Drywall-Join-Detect")
-split_dataset(r"wall-crack\wall-crack")
+if __name__ == "__main__":
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    split_dataset(os.path.join(repo_root, "data", "drywall"))
+    split_dataset(os.path.join(repo_root, "data", "wall-crack"))

@@ -155,9 +155,9 @@ def validate(model, processor, val_loader, device):
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
-    # Dataset paths [cite: 8, 10]
-    drywall_root = "/content/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
-    crack_root   = "/content/content/Origin/wall-crack/wall-crack"
+    # Dataset paths — adjust if running outside the repo root
+    drywall_root = os.path.join(os.path.dirname(__file__), "..", "data", "Drywall-Join-Detect", "Drywall-Join-Detect")
+    crack_root   = os.path.join(os.path.dirname(__file__), "..", "data", "wall-crack", "wall-crack")
 
     # Task mapping: Dataset 1 (Taping) and Dataset 2 (Cracks) [cite: 4, 5, 9, 10]
     train_drywall = PromptSegDataset(os.path.join(drywall_root, "train_split"), "segment_taping_area")

@@ -10,7 +10,7 @@ CHECKPOINT_PATH = "sam_vit_l_0b3195.pth"
 
 
 MODEL_TYPE = "vit_l"
-DATASET_ROOT = "/content/Origin/Drywall-Join-Detect/Drywall-Join-Detect"
+DATASET_ROOT = os.path.join(os.path.dirname(__file__), "..", "data", "Drywall-Join-Detect", "Drywall-Join-Detect")
 
 
 sam = sam_model_registry[MODEL_TYPE](checkpoint=CHECKPOINT_PATH)
